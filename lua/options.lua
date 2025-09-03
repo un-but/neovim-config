@@ -13,6 +13,10 @@ local options = {
 
   cursorline = true, -- Подсветка строки с курсором
   updatetime = 250, -- Время обновления в миллисекундах
+
+  expandtab = true,      -- использовать пробелы вместо табов
+  shiftwidth = 4,        -- размер отступа при автоотступе
+  tabstop = 4           -- ширина таба
 }
 
 for k, v in pairs(options) do
