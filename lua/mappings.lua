@@ -23,7 +23,6 @@ local map = vim.keymap.set
 
 -- Micro improvements
 map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
 map({ "n", "v" }, "<A-y>", '"+y', { desc = "Yank to system clipboard" })
 map("n", "<A-p>", '"+p', { desc = "Paste from system clipboard" })
 
@@ -32,7 +31,7 @@ map("n", "<A-q>", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "Close current buffer" })
 
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 -- LSP mappings
 map("n", "<leader>ds", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Line diagnostics" })
@@ -47,6 +46,12 @@ map("n", "<leader>cd", "<cmd>Nvdash<cr>", { desc = "DashBoard" })
 map("n", "<A-e>", "<cmd>NvimTreeToggle<cr>", { desc = "NvimTree" })
 
 -- Copilot
+map("i", "<C-j>", 'copilot#Accept("")', {
+  expr = true,
+  replace_keycodes = false,
+  desc = "Copilot: accept suggestion"
+})
+
 map("n", "<A-a>", "<cmd>CopilotChatToggle<cr>", { desc = "Copilot Chat" })
 
 -- Change window size

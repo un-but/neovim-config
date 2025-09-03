@@ -3,6 +3,12 @@ return {
   {
     "github/copilot.vim",
     event = "InsertEnter",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_filetypes = {
+        ["*"] = true,
+      }
+    end,
   },
 
   -- Copilot Chat
@@ -27,9 +33,6 @@ return {
       },
 
       mappings = {
-        complete = {
-          insert = "<Tab>",
-        },
         close = {
           normal = "q",
           insert = false,
