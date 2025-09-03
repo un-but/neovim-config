@@ -14,4 +14,3 @@ return {
     lsp_fallback = true,
   },
 }
-

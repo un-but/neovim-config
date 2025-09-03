@@ -1,15 +1,14 @@
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require("lspconfig")
+local lspconfig = require "lspconfig"
 local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Common root_dir patterns
 local root_pattern = lspconfig.util.root_pattern
 
-vim.diagnostic.config({
+vim.diagnostic.config {
   virtual_text = false,
-})
-
+}
 
 -- Lua setup
 
@@ -35,7 +34,6 @@ lspconfig.lua_ls.setup {
   },
 }
 
-
 -- Python setup
 
 lspconfig.basedpyright.setup {
@@ -56,18 +54,34 @@ lspconfig.ruff.setup {
   },
 }
 
-
 -- JavaScript/TypeScript (Vue) setup
 
 lspconfig.ts_ls.setup {
   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  root_dir = root_pattern("tsconfig.json", "jsconfig.json", "package.json", "vite.config.js", "webpack.config.js", "next.config.js", ".git"),
+  root_dir = root_pattern(
+    "tsconfig.json",
+    "jsconfig.json",
+    "package.json",
+    "vite.config.js",
+    "webpack.config.js",
+    "next.config.js",
+    ".git"
+  ),
   capabilities = cmp_capabilities,
 }
 
 lspconfig.eslint.setup {
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-  root_dir = root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json", ".eslintrc.cjs", ".eslintrc.yaml", ".eslintrc.yml", "package.json", ".git"),
+  root_dir = root_pattern(
+    ".eslintrc",
+    ".eslintrc.js",
+    ".eslintrc.json",
+    ".eslintrc.cjs",
+    ".eslintrc.yaml",
+    ".eslintrc.yml",
+    "package.json",
+    ".git"
+  ),
   capabilities = cmp_capabilities,
 }
 

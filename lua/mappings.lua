@@ -51,7 +51,7 @@ map("n", "<A-l>", "<cmd>Lazy<cr>", { desc = "Lazy" })
 map("i", "<C-j>", 'copilot#Accept("")', {
   expr = true,
   replace_keycodes = false,
-  desc = "Copilot: accept suggestion"
+  desc = "Copilot: accept suggestion",
 })
 
 map("n", "<A-a>", "<cmd>CopilotChatToggle<cr>", { desc = "Copilot Chat" })
@@ -59,17 +59,17 @@ map("n", "<A-a>", "<cmd>CopilotChatToggle<cr>", { desc = "Copilot Chat" })
 -- Change window size
 map("n", "<A-[>", function()
   if vim.fn.winwidth(0) > vim.fn.winheight(0) then
-    vim.cmd("resize +5")
+    vim.cmd "resize +5"
   else
-    vim.cmd("vertical resize +5")
+    vim.cmd "vertical resize +5"
   end
 end, { desc = "Resize window +5", noremap = true, silent = true })
 
 map("n", "<A-]>", function()
   if vim.fn.winwidth(0) > vim.fn.winheight(0) then
-    vim.cmd("resize -5")
+    vim.cmd "resize -5"
   else
-    vim.cmd("vertical resize -5")
+    vim.cmd "vertical resize -5"
   end
 end, { desc = "Resize window -5", noremap = true, silent = true })
 

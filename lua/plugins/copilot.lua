@@ -46,43 +46,43 @@ return {
           insert = "<C-s>",
         },
         toggle_sticky = {
-          normal = 'grr',
+          normal = "grr",
         },
         clear_stickies = {
-          normal = 'grx',
+          normal = "grx",
         },
         accept_diff = {
-          normal = '<C-y>',
-          insert = '<C-y>',
+          normal = "<C-y>",
+          insert = "<C-y>",
         },
         jump_to_diff = {
-          normal = 'gj',
+          normal = "gj",
         },
         quickfix_answers = {
-          normal = 'gqa',
+          normal = "gqa",
         },
         quickfix_diffs = {
-          normal = 'gqd',
+          normal = "gqd",
         },
         yank_diff = {
-          normal = 'gy',
+          normal = "gy",
           register = '"', -- Default register to use for yanking
         },
         show_diff = {
-          normal = 'gd',
+          normal = "gd",
           full_diff = false, -- Show full diff instead of unified diff when showing diff window
         },
         show_info = {
-          normal = 'gi',
+          normal = "gi",
         },
         show_context = {
-          normal = 'gc',
+          normal = "gc",
         },
         show_help = {
-          normal = 'gh',
+          normal = "gh",
         },
       },
     },
-    cmd = { "CopilotChat", "CopilotChatToggle" }
+    cmd = { "CopilotChat", "CopilotChatToggle" },
   },
 }

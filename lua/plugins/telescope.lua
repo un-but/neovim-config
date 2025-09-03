@@ -6,7 +6,7 @@ return {
     "ahmedkhalf/project.nvim",
   },
   config = function()
-    telescope = require("telescope")
+    local telescope = require "telescope"
 
     telescope.setup {
       extensions = {
@@ -14,7 +14,7 @@ return {
       },
     }
 
-    telescope.load_extension("projects")
+    telescope.load_extension "projects"
     telescope.setup {}
   end,
 }
