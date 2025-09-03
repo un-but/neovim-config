@@ -123,9 +123,3 @@ lspconfig.jsonls.setup {
   root_dir = root_pattern(".git", "package.json"),
   capabilities = cmp_capabilities,
 }
-
-lspconfig.dockerls.setup {
-  filetypes = { "dockerfile" },
-  root_dir = root_pattern("Dockerfile", "docker-compose.yml", ".dockerignore", ".git", "package.json"),
-  capabilities = cmp_capabilities,
-}
