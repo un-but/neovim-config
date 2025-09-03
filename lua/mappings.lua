@@ -44,6 +44,8 @@ map("n", "<leader>dr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename str
 -- NvChad
 map("n", "<leader>cd", "<cmd>Nvdash<cr>", { desc = "DashBoard" })
 map("n", "<A-e>", "<cmd>NvimTreeToggle<cr>", { desc = "NvimTree" })
+map("n", "<A-m>", "<cmd>Mason<cr>", { desc = "Mason" })
+map("n", "<A-l>", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Copilot
 map("i", "<C-j>", 'copilot#Accept("")', {

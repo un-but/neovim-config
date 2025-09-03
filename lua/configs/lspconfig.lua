@@ -4,6 +4,10 @@ local servers = { "basedpyright", "ruff" }
 vim.lsp.enable(servers)
 
 local lspconfig = require("lspconfig")
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- Common root_dir patterns
+local root_pattern = lspconfig.util.root_pattern
 
 vim.diagnostic.config({
   virtual_text = false,
@@ -13,29 +17,40 @@ vim.diagnostic.config({
 -- Lua setup
 
 lspconfig.lua_ls.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
   filetypes = { "lua" },
-  root_dir = lspconfig.util.root_pattern(".git", ".luarc.json", ".luacheckrc"),
+  root_dir = root_pattern(".git", ".luarc.json", ".luacheckrc", ".luarc.jsonc"),
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+        path = vim.api.nvim_get_runtime_file("?.lua", true),
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      telemetry = { enable = false },
+    },
+  },
 }
 
 
 -- Python setup
 
 lspconfig.basedpyright.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/basedpyright", "--verbose" },
   filetypes = { "python" },
-  root_dir = lspconfig.util.root_pattern(".git", "pyproject.toml"),
+  root_dir = root_pattern(".git", "pyproject.toml", "setup.cfg", "requirements.txt", "Pipfile", "tox.ini"),
   handlers = {
-    ["streamChoices"] = function()
-      -- Игнорировать ошибку streamChoices с некорректным completionId
-    end,
+    ["streamChoices"] = function() end,
   },
 }
 
 lspconfig.ruff.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/ruff", "server" },
   filetypes = { "python" },
-  root_dir = lspconfig.util.root_pattern(".git", "pyproject.toml"),
+  root_dir = root_pattern(".git", "pyproject.toml", "setup.cfg", "requirements.txt", "Pipfile", "tox.ini"),
   settings = {
     args = {}, -- Дополнительные параметры для ruff
   },
@@ -45,21 +60,18 @@ lspconfig.ruff.setup {
 -- JavaScript/TypeScript (Vue) setup
 
 lspconfig.ts_ls.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/typescript-language-server", "--stdio" },
   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+  root_dir = root_pattern("tsconfig.json", "jsconfig.json", "package.json", "vite.config.js", "webpack.config.js", "next.config.js", ".git"),
 }
 
 lspconfig.eslint.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/vscode-eslint-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-  root_dir = lspconfig.util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json", "package.json", ".git"),
+  root_dir = root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json", ".eslintrc.cjs", ".eslintrc.yaml", ".eslintrc.yml", "package.json", ".git"),
 }
 
 lspconfig.html.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/vscode-html-language-server", "--stdio" },
   filetypes = { "html", "vue" },
-  root_dir = lspconfig.util.root_pattern(".git", "package.json"),
+  root_dir = root_pattern("index.html", ".git", "package.json", "vite.config.js", "webpack.config.js"),
   init_options = {
     configurationSection = { "html", "javascript", "typescript" },
     embeddedLanguages = {
@@ -70,15 +82,13 @@ lspconfig.html.setup {
 }
 
 lspconfig.cssls.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/vscode-css-language-server", "--stdio" },
   filetypes = { "css", "scss", "less", "vue" },
-  root_dir = lspconfig.util.root_pattern(".git", "package.json"),
+  root_dir = root_pattern("index.html", ".git", "package.json", "vite.config.js", "webpack.config.js"),
 }
 
 lspconfig.volar.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/vue-language-server", "--stdio" },
   filetypes = { "vue" },
-  root_dir = lspconfig.util.root_pattern("package.json", "vue.config.js", ".git"),
+  root_dir = root_pattern("package.json", "vue.config.js", "vite.config.js", "nuxt.config.js", ".git"),
   settings = {
     vue = {
       format = {
@@ -100,29 +110,22 @@ lspconfig.volar.setup {
       },
     },
   },
-  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+  capabilities = cmp_capabilities,
 }
-
 
 -- C/C++ setup
-
 lspconfig.clangd.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/clangd" },
   filetypes = { "c", "cpp", "objc", "objcpp" },
-  root_dir = lspconfig.util.root_pattern(".git", "compile_commands.json"),
+  root_dir = root_pattern("compile_commands.json", "compile_flags.txt", "CMakeLists.txt", "Makefile", ".git"),
 }
 
-
 -- Some filetypes setup
-
 lspconfig.jsonls.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/vscode-json-language-server", "--stdio" },
   filetypes = { "json", "jsonc" },
-  root_dir = lspconfig.util.root_pattern(".git", "package.json"),
+  root_dir = root_pattern(".git", "package.json"),
 }
 
 lspconfig.dockerls.setup {
-  cmd = { vim.fn.stdpath("data") .. "/mason/bin/docker-language-server", "--stdio" },
   filetypes = { "dockerfile" },
-  root_dir = lspconfig.util.root_pattern(".git", "Dockerfile"),
+  root_dir = root_pattern("Dockerfile", "docker-compose.yml", ".dockerignore", ".git", "package.json"),
 }
