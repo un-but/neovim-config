@@ -2,10 +2,15 @@ return {
   formatters_by_ft = {
     lua = { "stylua" },
     python = { "pydocstyle" },
+    c = { "clang-format" },
+    cpp = { "clang-format" },
+
     javascript = { "prettier" },
     typescript = { "prettier" },
-    css = { "prettier" },
+    vue = { "prettier" },
+
     html = { "prettier" },
+    css = { "prettier" },
     json = { "prettier" },
     -- add more filetypes and their formatters as needed
   },
