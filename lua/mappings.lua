@@ -23,8 +23,8 @@ local map = vim.keymap.set
 
 -- Micro improvements
 map("n", ";", ":", { desc = "CMD enter command mode" })
-map({ "n", "v" }, "<A-y>", '"+y', { desc = "Yank to system clipboard" })
-map("n", "<A-p>", '"+p', { desc = "Paste from system clipboard" })
+map({ "n", "v" }, "<C-c>", '"+y', { desc = "Yank to system clipboard" })
+map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
 
 map("n", "<A-b>", "<cmd>enew<CR>", { desc = "Create new buffer" })
 map("n", "<A-q>", function()
@@ -33,6 +33,22 @@ end, { desc = "Close current buffer" })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
+-- Tabs
+
+for i = 1, 9 do
+  map("n", "<A-" .. i .. ">", function()
+    local tabcount = vim.fn.tabpagenr "$"
+    if tabcount < i then
+      for _ = tabcount, i - 1 do
+        vim.cmd "tabnew"
+      end
+    end
+    vim.cmd(i .. "tabnext")
+  end, { desc = "Go to tab " .. i })
+end
+
+map("n", "<A-c>", ":tabclose<CR>", { desc = "Close current tab" })
+
 -- LSP mappings
 map("n", "<leader>ds", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Line diagnostics" })
 map("n", "<leader>dd", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Line Code Action" })
@@ -40,6 +56,8 @@ map("n", "<leader>dS", "<cmd>Telescope diagnostics<cr>", { desc = "File diagnost
 map("n", "<leader>dD", "<cmd>EslintFixAll<cr>", { desc = "Fix all problems (eslint)" })
 map("n", "<leader>df", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to definition" })
 map("n", "<leader>dr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename structure" })
+
+map("n", "<A-d>", ":tab DBUI<CR>", { desc = "Open DBUI in new tab" })
 
 -- NvChad
 map("n", "<leader>cd", "<cmd>Nvdash<cr>", { desc = "DashBoard" })
@@ -55,6 +73,11 @@ map("i", "<C-j>", 'copilot#Accept("")', {
 })
 
 map("n", "<A-a>", "<cmd>CopilotChatToggle<cr>", { desc = "Copilot Chat" })
+
+-- Snippets
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
+  return require("luasnip").expand_or_jumpable() and "<Plug>luasnip-expand-or-jump" or "<C-k>"
+end, { expr = true, silent = true, desc = "LuaSnip: expand or jump" })
 
 -- Change window size
 map("n", "<A-[>", function()

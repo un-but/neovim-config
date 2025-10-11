@@ -54,6 +54,23 @@ lspconfig.ruff.setup {
   },
 }
 
+-- Go setup
+
+lspconfig.gopls.setup {
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_dir = root_pattern("go.work", "go.mod", ".git"),
+  capabilities = cmp_capabilities,
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+      gofumpt = true,
+    },
+  },
+}
+
 -- JavaScript/TypeScript (Vue) setup
 
 lspconfig.ts_ls.setup {

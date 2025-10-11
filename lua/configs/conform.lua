@@ -7,7 +7,10 @@ return {
 
     javascript = { "prettier" },
     typescript = { "prettier" },
+
     vue = { "prettier" },
+    javascriptreact = { "prettier" },
+    typescriptreact = { "prettier" },
 
     html = { "prettier" },
     css = { "prettier" },
