@@ -146,6 +146,13 @@ lspconfig.clangd.setup {
   filetypes = { "c", "cpp", "objc", "objcpp" },
   root_dir = root_pattern("compile_commands.json", "compile_flags.txt", "CMakeLists.txt", "Makefile", ".git"),
   capabilities = cmp_capabilities,
+  settings = {
+    clangd = {
+      completion = {
+        includeFunctionArguments = false,
+      },
+    },
+  },
 }
 
 -- Some filetypes setup

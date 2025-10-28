@@ -18,6 +18,8 @@ safe_unmap("n", "<leader>b")
 safe_unmap("n", "<leader>x")
 safe_unmap("n", "<leader>D")
 
+safe_unmap("i", "<CR>")
+
 -- Enable mappings
 local map = vim.keymap.set
 
@@ -66,13 +68,15 @@ map("n", "<A-m>", "<cmd>Mason<cr>", { desc = "Mason" })
 map("n", "<A-l>", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Copilot
-map("i", "<C-j>", 'copilot#Accept("")', {
-  expr = true,
-  replace_keycodes = false,
-  desc = "Copilot: accept suggestion",
-})
+map("i", "<C-j>", function()
+  require("copilot.suggestion").accept()
+end, { desc = "Copilot: accept suggestion" })
 
-map("n", "<A-a>", "<cmd>CopilotChatToggle<cr>", { desc = "Copilot Chat" })
+map("i", "<A-j>", function()
+  require("copilot.suggestion").next()
+end, { desc = "Copilot: next suggestion" })
+
+map("n", "<A-a>", ":CopilotChatToggle<cr>", { desc = "Copilot Chat" })
 
 -- Snippets
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
@@ -96,6 +100,10 @@ map("n", "<A-]>", function()
   end
 end, { desc = "Resize window -5", noremap = true, silent = true })
 
+-- Replace plugin
+map("n", "<A-r>", function()
+  require("grug-far").open { prefills = { search = vim.fn.expand "<cword>" } }
+end, { desc = "Open replace window" })
 -- Telescope
 -- map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
 -- map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })

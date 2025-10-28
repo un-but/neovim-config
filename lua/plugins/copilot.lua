@@ -1,12 +1,37 @@
 return {
-  -- Copilot (автодополнение)
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
     event = "InsertEnter",
+    cmd = "Copilot",
     config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_filetypes = {
-        ["*"] = true,
+      require("copilot").setup {
+        panel = {
+          enabled = false,
+        },
+        suggestion = {
+          enabled = true,
+          keymap = nil,
+
+          -- Auto suggest
+          auto_trigger = false,
+          hide_during_completion = true,
+          debounce = 75,
+          trigger_on_accept = false,
+        },
+        filetypes = {
+          ["*"] = true, -- All filetypes support
+        },
+        should_attach = function(_, bufname) -- Regulate's copilot's access to buffer
+          if not vim.bo.buflisted or vim.bo.buftype ~= "" then
+            return false
+          end
+
+          if bufname:match "^%.env" then
+            return false
+          end
+
+          return true
+        end,
       }
     end,
   },
@@ -15,21 +40,28 @@ return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
     },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    -- build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
       model = "gpt-4.1",
-      chat_autocomplete = true,
-      question_header = "󱟄 UnBut",
-      answer_header = "  Copilot",
-      error_header = "󰅚  Error",
+      temperature = 0.6,
+
+      auto_insert_mode = false,
+      auto_fold = true,
+
+      headers = {
+        user = "󱟄 UnBut",
+        assistant = "  Copilot",
+        tool = "󰅚  Error",
+      },
 
       window = {
         title = "Copilot Chat",
-        layout = "vertical",
-        width = 0.4,
+        layout = "float",
+        border = "rounded",
+        width = 80,
       },
 
       mappings = {
